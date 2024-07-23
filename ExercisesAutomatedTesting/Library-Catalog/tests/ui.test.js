@@ -10,7 +10,16 @@ test('Verify Login link is visible', async ({page}) => {
 	expect(isElementVisible).toBe(true);
 })
 
-test('Velify All Books link is visible', async ({ page }) => {
+test('Verify Register link is visible', async ({page}) => {
+	await page.goto(baseUrl);
+	await page.waitForSelector('nav.navbar');
+	const registerLink = await page.$('a[href="/register"]');
+	const isElementVisible = await registerLink.isVisible();
+
+	expect(isElementVisible).toBe(true);
+})
+
+test('Verify All Books link is visible', async ({ page }) => {
 	await page.goto(baseUrl);
 	await page.waitForSelector('nav.navbar');
 	const allBooksList = await page.$('section > a');
