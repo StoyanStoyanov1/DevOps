@@ -13,7 +13,7 @@ server.get('/books', (req, res) => {
 server.post('/books', (req, res) => {
     const book = req.body;
     books.push(book);
-    res.status(201).json(book);
+    res.status(200).json(book);
 });
 
 server.get('/books/:id', (req, res) => {
@@ -42,6 +42,6 @@ server.delete('/books/:id', (req, res) => {
     }
 });
 
-server.listen(3003, () => console.log('Server is up and running'));
+server.listen(3000, () => console.log('Server is up and running'));
 
 module.exports = server; // Exporting for testing
