@@ -15,9 +15,11 @@ it('Should POST a book', (done) => {
 		.end((err, res) => {
 			if (err) done(err);
 
-
-			expect(res.statusCode).to.equal(200);
-
+			const body = res.body;
+			expect(res.statusCode, "Status code").to.equal(200);
+			expect(body.id, "Book ID Property").to.be.equal(book.id);
+			expect(body.title, "Book Title Property").to.be.equal(book.title);
+			expect(body.author, "Book Author").to.be.equal(book.author);
 			done();
 		});
 });
