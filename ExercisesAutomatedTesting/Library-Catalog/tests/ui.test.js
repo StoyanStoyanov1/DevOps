@@ -46,3 +46,33 @@ test('Verify valid user can login', async ({page}) => {
 
 	expect(createBookLinkText).toBe("Add Book");
 });
+
+test('Add book with correct data', async ({ page }) => {
+
+	await page.goto(baseUrl + '/login');
+
+	await page.fill('input[name="email"]', 'peter@abv.bg');
+	await page.fill('input[name="password"]', '123456');
+
+	await Promise.all([
+		page.click('input[type="submit"]'),
+		page.waitForURL(baseUrl + '/catalog')
+	]);
+
+	expect(page.url()).toBe(baseUrl + '/catalog');
+
+	await page.click('a[href="/create"]');
+	await page.waitForSelector('#create-form');
+
+	await page.fill('#title', 'Test Book');
+	await page.fill('#description', 'This is a test book');
+	await page.fill('#image', 'https://example.jpg');
+	await page.selectOption('#type', 'Fiction');
+
+	await page.click('#create-form input[type="submit"]'); // Липсва затварящата скоба на селектора
+
+	await page.waitForURL(baseUrl + '/catalog');
+
+	// Проверка дали URL е правилен след създаване на книгата
+	expect(page.url()).toBe(baseUrl + '/catalog');
+});

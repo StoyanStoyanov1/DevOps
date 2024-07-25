@@ -13,7 +13,7 @@ server.get('/books', (req, res) => {
 server.post('/books', (req, res) => {
     const book = req.body;
     books.push(book);
-    res.status(200).json(book);
+    res.status(201).json(book);
 });
 
 server.get('/books/:id', (req, res) => {
