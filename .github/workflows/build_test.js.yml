@@ -23,8 +23,6 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - name: Change directory to CI-CD-InGitHubActions
-      run: cd ./CI-CD-InGitHubActions
     - name: Install dependencies
       run: npm install
       working-directory: ./CI-CD-InGitHubActions
