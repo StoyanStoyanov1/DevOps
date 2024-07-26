@@ -11,16 +11,23 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        node-version: [14, 16, 18]
+
     steps:
-    - name: Checkout of the repo
+    - name: Checkout the repo
       uses: actions/checkout@v4
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run:  cd .\CI-CD-InGitHubActions\
-    - name: Install dependecies
+    - name: Change directory to CI-CD-InGitHubActions
+      run: cd ./CI-CD-InGitHubActions
+    - name: Install dependencies
       run: npm install
+      working-directory: ./CI-CD-InGitHubActions
     - name: Run Integration Tests
       run: npm test
+      working-directory: ./CI-CD-InGitHubActions
