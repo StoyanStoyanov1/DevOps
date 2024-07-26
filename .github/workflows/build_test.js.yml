@@ -24,10 +24,6 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-      working-directory: ./CI-CD-InGitHubActions  # Ensure this line is added to set the working directory
-
-    - name: Change directory to CI-CD-InGitHubActions
-      run: cd ./CI-CD-InGitHubActions
 
     - name: Display Node.js version
       run: node --version
