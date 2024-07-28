@@ -1,3 +1,2 @@
-export const settings = {
-	host: "https://devops-16b7.onrender.com/",
-};
+
+	host: "https://devops-be.onrender.com",
