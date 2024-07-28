@@ -2,9 +2,9 @@ name: Build and Test
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   build:
@@ -22,47 +22,56 @@ jobs:
         
     - name: Install npm dependencies
       run: npm install
-      
+
+    - name: Change the config
+      run: echo "export const settings = { host: 'http://localhost:3030' }" > config.js
+
     - name: Start the backend
       run: npm run start-be &
 
+    - name: Wait for backend to start
+      run: sleep 10
+
     - name: Start the frontend
-      run:   npm run start-fe &
+      run: npm run start-fe &
+
+    - name: Wait for frontend to start
+      run: sleep 10
 
     - name: Install Playwright Browsers
       run: npx playwright install
         
-    - name: Start Ui tests
+    - name: Start UI tests
       run: npm run test:ui
       
   deploy-backend:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
-    needs: build_and_test
+    needs: build
     steps:
       - name: Checkout the code
         uses: actions/checkout@v4
       - name: Deploy backend
         uses: JorgeLNJunior/render-deploy@v1.4.4
         with:
-          server-id: ${{ secrets.BACKEND_API_KEY }}
-          api-key: ${{ secrets.RENDER_KEY }}
+          service_id: ${{ secrets.BACKEND_API_KEY }}
+          api_key: ${{ secrets.RENDER_KEY }}
           clear_cache: true
           wait_deploy: true
-          github_token: ${{ secret.TOKEN_GH }}
+          github_token: ${{ secrets.TOKEN_GH }}
 
   deploy-frontend:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
-    needs: deploy_backend
+    needs: deploy-backend
     steps:
       - name: Checkout the code
         uses: actions/checkout@v4
-      - name: Deploy backend
+      - name: Deploy frontend
         uses: JorgeLNJunior/render-deploy@v1.4.4
         with:
-          server-id: ${{ secrets.FRONTEND_SECRET_KEY }}
-          api-key: ${{ secrets.RENDER_KEY }}
+          service_id: ${{ secrets.FRONTEND_SECRET_KEY }}
+          api_key: ${{ secrets.RENDER_KEY }}
           clear_cache: true
           wait_deploy: true
-          github_token: ${{ secret.TOKEN_GH }}
+          github_token: ${{ secrets.TOKEN_GH }}
