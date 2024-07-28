@@ -1,6 +1,3 @@
-# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
-
 name: Test
 
 on:
@@ -21,7 +18,14 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run: npm ci
-    - run: npm run build --if-present
+    - name: install All
+      run: npm install
+    - name: start front end
+      run: npm run start-fr
+    - name: start back end
+      run: npm run start-be
+    - name: test
+      run: npm run test:ui
+    
 
   
