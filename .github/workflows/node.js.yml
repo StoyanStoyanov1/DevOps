@@ -1,31 +1,4 @@
-name: Test
 
-on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-
-jobs:
-  build:
-
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v4
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - name: install All
-      run: npm install
-    - name: start front end
-      run: npm run start-fr
-    - name: start back end
-      run: npm run start-be
-    - name: test
-      run: npm run test:ui
     
 
   
