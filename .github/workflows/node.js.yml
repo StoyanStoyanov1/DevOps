@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  build-and-test:
     runs-on: ubuntu-latest
 
     steps:
@@ -27,18 +27,18 @@ jobs:
       run: npm run start-be &
 
     - name: Start the frontend
-      run:   npm run start-fe &
+      run: npm run start-fe &
 
     - name: Install Playwright Browsers
       run: npx playwright install
         
-    - name: Start Ui tests
+    - name: Start UI tests
       run: npm run test:ui
       
   deploy-backend:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
-    needs: build_and_test
+    needs: build-and-test
     steps:
       - name: Checkout the code
         uses: actions/checkout@v4
@@ -49,20 +49,20 @@ jobs:
           api-key: ${{ secrets.RENDER_KEY }}
           clear_cache: true
           wait_deploy: true
-          github_token: ${{ secret.TOKEN_GH }}
+          github_token: ${{ secrets.TOKEN_GH }}
 
   deploy-frontend:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
-    needs: deploy_backend
+    needs: deploy-backend
     steps:
       - name: Checkout the code
         uses: actions/checkout@v4
-      - name: Deploy backend
+      - name: Deploy frontend
         uses: JorgeLNJunior/render-deploy@v1.4.4
         with:
           server-id: ${{ secrets.FRONTEND_SECRET_KEY }}
           api-key: ${{ secrets.RENDER_KEY }}
           clear_cache: true
           wait_deploy: true
-          github_token: ${{ secret.TOKEN_GH }}
+          github_token: ${{ secrets.TOKEN_GH }}
