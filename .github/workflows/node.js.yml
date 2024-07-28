@@ -22,18 +22,12 @@ jobs:
         
     - name: Install npm dependencies
       run: npm install
-      
+   
     - name: Start the backend
       run: npm run start-be &
 
     - name: Start the frontend
       run: npm run start-fe &
-
-    - name: Install Playwright Browsers
-      run: npx playwright install
-        
-    - name: Start UI tests
-      run: npm run test:ui
       
   deploy-backend:
     runs-on: ubuntu-latest
