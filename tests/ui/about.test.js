@@ -7,7 +7,7 @@ test('Check about page', async ({ page }) => {
   expect(text).toBe('About');
 });
 
-test.only('Check about page test', async ({ page }) => {
+test('Check about page test', async ({ page }) => {
   await page.goto('http://localhost:8081/about');
   const heading = await page.$('p');
   const text = await heading.textContent();
