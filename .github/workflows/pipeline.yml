@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build-and-test:
+  build-and-unit-test:
     runs-on: ubuntu-latest
 
     steps:
@@ -22,3 +22,24 @@ jobs:
       run: npm install
     - name: Execute the unit tests
       run: npm run test:unit
+    - name: Display sofyuni username
+      run: echo 'Stenly93'
+
+  execute-ui-test:
+    needs: build-and-unit-test
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout the code
+    - name: Use Node.js 20x
+      uses: action/setup-node@v4
+      with:
+        node-version: 20.x
+        cashe: 'npm'
+    - name: install npm dependecies
+      run: npm install
+    - name: Install Playwright browsers
+      run: npx playwright install
+    - name: Start the application
+      run: npm run start &
+    - name: Execute the UI tests
+      run: npm run test:ui
